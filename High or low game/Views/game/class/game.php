@@ -21,12 +21,10 @@ class game
 
     }
 
-    // check winning condations
+    // check winning conditions
 
 
-    public function checkwin() {
-        
-    }
+
 
 
 }
