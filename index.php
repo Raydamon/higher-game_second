@@ -1,66 +1,60 @@
-<!DOCTYPE html>
+<?php
+// variables
+$random_num1 =  rand(0, 30);
+$random_num2 =  rand(0, 30);
+?>
+
+
+<!<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>High or Low</title>
+    <title> Higher or lower game  </title>
 </head>
+<style>
+    h1{
+        text-align:center;
+        margin-top: 5px;
+    }
+</style>
+
+<html>
+
 <body>
-<?php session_start() ?>
+<h1> welcome to my higher and lower game </h1>
+<form name="frmMain" method="POST"  action="<?php echo $_SERVER['PHP_SELF'] ?>">
+    <DIV align="center">
+        <input type="hidden" name="txtRand" value="<?php echo $random_num1 ?>">
+        <input type="hidden" name="txtNum" value="<?php echo $random_num2 ?>">
+        <table class="table" width=20% cellspacing=0 cellpadding=0 border="0">
+            <tr>
+                <td colspan="2"> Choose higher or lower than <?php echo $random_num1 ?></td>
+            </tr>
+            <tr><td align="center"><input type="Submit" name="subLower" value="Lower"></td>
+                <td align="center"><input type="Submit" name="subHigher" value="Higher"></td></tr>
 
-<?php
-class Ray
-{
-    /* Read Session variable*/
-    public static function s($v)
-    {
-        return isset( $_SESSION[$v] ) ? $_SESSION[$v] : null;
-    }
+            <?php
+            // a random number
+            if (isset($_POST['txtNum'])) {
+                $randnum = $_POST['txtRand'];
+                $num = $_POST['txtNum'];
 
-    /* Set Session variable*/
-    public static function ss($v, $value = null)
-    {
-        $_SESSION[$v] = $value;
-    }
+                if (isset($_POST['subLower'])) {
+                    if ($num < $randnum) echo '<tr><td colspan="2">The number ' . $num . ' is lower, you were right life lost</td></tr>';
+                    if ($num > $randnum) echo '<tr><td colspan="2">The number ' . $num . ' is higher, you were wrong</td></tr>';
+                    if ($num == $randnum) echo '<tr><td colspan="2">The number was the same, Oops :)</td></tr>';
+                }
 
-    /* Read get variable*/
-    public static function g($v)
-    {
-        return isset( $_GET[$v] ) ? $_GET[$v] : null;
-    }
-}
-?>
+                if (isset($_POST['subHigher'])) {
+                    if ($num > $randnum) echo '<tr><td colspan="2">The number ' . $num . ' is higher, you were right :)</td></tr>';
+                    if ($num < $randnum) echo '<tr><td colspan="2">The number ' . $num . ' is lower, you were wrong :(</td></tr>';
+                    if ($num == $randnum) echo '<tr><td colspan="2">The number was the same, Oops :)</td></tr>';
+                }
 
-<?php
-if( Ray::g('action') == 'newgame' )
-{
-    Ray::ss('life', 3);
-}
-?>
+            }
 
-<?php if ( Ray::s('life') ) : ?>
-
-    Game View<br>
-    Life <?= Ray::s('life') ?><br>
-    Guess: 	<a href="/?guess=high">High</a>	| <a href="/?guess=low">low</a>
-
-    <?php
-    Ray::ss(
-        'life',
-        Ray::s('life') - 1
-    );
-    ?>
-
-<?php else : ?>
-
-    Welcome<br>
-    <?php if ( !Ray::g('guess') ) : ?>
-        <a href="?action=newgame">New Game!</a>
-    <?php else: ?>
-        You Lost!<br>
-        <a href="?action=newgame">Try again!</a>
-    <?php endif; ?>
-
-<?php endif; ?>
-
+            ?>
+        </table>
+    </DIV>
+</FORM>
 </body>
 </html>
